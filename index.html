@@ -1,369 +1,230 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedro Ramos | Desenvolvedor & IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background-color: #050505; color: #e2e8f0; scroll-behavior: smooth; }
+        .font-mono { font-family: 'Fira Code', monospace; }
+        
+        .aurora {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: 
+                radial-gradient(circle at 15% 25%, rgba(59, 130, 246, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(45, 212, 191, 0.08) 0%, transparent 45%);
+        }
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
-     crossorigin="anonymous" referrerpolicy="no-referrer" />
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .card-pessoal { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-radius: 2rem; }
+        .card-pessoal:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.04); border-color: rgba(59, 130, 246, 0.4); }
 
-    <link rel="stylesheet" href="style.css">
-    <title>Portifólio - Pedro Ramos</title>
-    
+        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(20px); }
+        .modal.active { display: flex; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Estilo do Logo WL System */
+        .logo-wl { display: flex; align-items: center; gap: 8px; font-weight: 800; letter-spacing: -1px; }
+        .logo-box {
+            background: linear-gradient(135deg, #3b82f6, #2dd4bf);
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; transform: rotate(-10deg);
+        }
+
+        /* Moldura da Foto */
+        .foto-container { position: relative; width: 280px; height: 280px; }
+        .foto-glow {
+            position: absolute; inset: 0; background: #3b82f6; border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            filter: blur(40px); opacity: 0.2; animation: morph 8s infinite alternate;
+        }
+        .foto-img {
+            width: 100%; height: 100%; border-radius: 2rem; object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.1); position: relative; z-index: 2;
+        }
+
+        @keyframes morph {
+            0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            100% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+        }
+
+        .tech-pill {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.5rem 1rem; border-radius: 12px;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.875rem; font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .tech-pill:hover { background: rgba(59, 130, 246, 0.1); border-color: #3b82f6; }
+    </style>
 </head>
 <body>
-<!--Header-->
-<section id="header">
-    <a class="header-title" href="/">
-        <h1>pwr.dev</h1>
-    </a>
 
-    <nav class="navbar">
-        <ul>
-            <li><a href="#person">Home</a></li>
-            <li><a href="#about">Sobre</a></li>
-            <li><a href="#projects">Projetos</a></li>
-            <li><a href="#contacts">Contatos</a></li>
-        </ul>
+    <div class="aurora"></div>
+
+    <nav class="fixed top-0 w-full z-50 p-6">
+        <div class="max-w-5xl mx-auto flex justify-between items-center glass p-4 rounded-3xl">
+            <span class="font-bold tracking-tighter text-xl ml-2 text-white">pwrdev<span class="text-blue-500">.</span></span>
+            <div class="flex gap-6 text-sm font-medium mr-2 text-slate-300">
+                <a href="#sobre" class="hover:text-blue-500 transition">Sobre mim.</a>
+                <a href="#trabalho" class="hover:text-blue-500 transition">Projetos.</a>
+                <a href="#contato" class="bg-blue-600 px-4 py-2 rounded-xl text-white hover:bg-blue-500 transition shadow-lg shadow-blue-600/20">Fale comigo!</a>
+            </div>
+        </div>
     </nav>
-</section>
 
-<!--End Header-->
-
-
-    <!-- Person -->
-
-    <section id="person">
-        <div class="person-content">
-
-            <div class="person-name">
-                <h1>Olá, <span></span></h1>
-                <h1>Meu nome é <span></span></h1>
-                <h1>Pedro Ramos <span></span></h1>
-            </div>
-            <div class="stacks-content">
-                <h3>Techs :</h3>
-
-                <div class="stacks">
-                    <ul>
-                        <li>
-                            <div data="HTML">
-                                <img src="./svg/html.svg" alt="html-icon">
-                            </div>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <div data="CSS">
-                                <img src="./svg/css.svg" alt="css-icon">
-                            </div>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <div data="JAVA">
-                                <img src="./svg/java-vertical.svg" alt="java-icon">
-                            </div>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <div data="C">
-                                <img src="./svg/C_Programming_Language.svg" alt="c-icon">
-                            </div>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <div data="PHP">
-                                <img src="./svg/php-icon.svg" alt="php-icon">
-                            </div>
-                        </li>
-                    </ul>
-                    
-
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="person-background">
-            <div class="wrapper-profile-photo">
-                <img src="./img/profile-photo.jpg" alt="photo-pedro">
-            </div>
-
-            <div class="links">
-                <a href="https://github.com/PedroWashingtonRamos" target="_blank">
-                    <img src="./svg/logo-github.svg" alt="icon-github">
-                </a>
-                <a href="https://www.linkedin.com/in/pedrowramos/" target="_blank">
-                    <img src="./svg/logo-linkedin.svg" alt="icon-linkedin">
-                </a>
-                <a href="https://www.instagram.com/wlimadev/" target="_blank">
-                    <img src="./svg/logo-insta.svg" alt="icon-instagram">
-                </a>
-                </div>
-        </div>
-    </section>
-
-    <!-- End Person -->
-
-    <!--About-->
-
-    <section id="about">
-        <div class="background-about">
-            <div class="img-wrapper">
-                <img src="./img/img.2.jpg" alt="img2-laptop">
-            </div>
-            <div>
-
-                <div class="box-about">
-                    <div class="section-subtitle">
-                        <h2>
-                            <p>💻</p>
-                            <p><span>Desenvolvedor</span>Em formação</p>
-                        </h2>
-                    </div>
-
-                        <h3>
-                            Desenvolvedor em formação com experiências em: <br>
-                            <p>Java, C#, JS | HTML, CSS.</p>
-                        </h3>
-
-                        <h4>
-                             Meu nome é Pedro Washington Ramos, tenho 24 anos e moro no Rio Grande do Sul.
-                             Estou cursando na faculdade Ciência da Computação e tenho como objetivo ser  um desenvolvedor Full Stack. 
-                             Estudo as linguagens de programação C# , Java,e JavaScript, além de desenvolver projetos utilizando 
-                             HTML e CSS.
-                        </h4>
-
-                        <h4>Abaixo esté meu <p>currículo</p> para download.</h4>
-
-                            <div class="button-cta">
-                                <a href="file:///C:/Users/pwrde/Downloads/PedroRamos_Curriculum.pdf" download="CV-Pedr-Ramos" aria-label="Baixar currículo Pedro Ramos">
-                                    Currículo</a>
-                            </div>
-                        
-                    </div>
-
-                </div>
-            </div>
-
-        </section>
-
-    <!--End About-->
-
-    <!--Projects-->
-
-    <section id="projects">
-        <div class="projects-title">
-            <h2>PROJETOS 🗃️</h2>
-        </div>
-
-        <div class="wrapper-projects">
-
-            <div class="cards-project">
-                <div class="content-project">
-                    <div class="content-project">
-                        <div class="image-project">
-                            
-                            <a href="/">
-                                <img src="./img/html e css.jpg" alt="html-css-image">
-                            </a>
-
-                        </div>
-                        <span>Projetos em HTML e CSS</span>
-
-                        <p>Projetos concluídos em HTML e CSS utilizando meus conhecimentos e videos aulas.</p>
-
-                        <div class="cta-project">
-                            <a href="/">
-                                Código
-                                <i class="fa-brands fa-github"></i>
-                            </a>
-                            <a href="/">
-                                Site
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                            </a>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="cards-project">
-                <div class="content-project">
-                    <div class="content-project">
-                        <div class="image-project">
-                            
-                            <a href="/">
-                                <img src="./img/javascript-gd5362f593_1920.png" alt="html-css-image">
-                            </a>
-
-                        </div>
-                        <span>Projetos em JavaScript</span>
-
-                        <p>Projetos concluídos em JavaScript utilizando meus conhecimentos e videos aulas.</p>
-
-                        <div class="cta-project">
-                            <a href="/">
-                                Código
-                                <i class="fa-brands fa-github"></i>
-                            </a>
-                            <a href="/">
-                                Site
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                            </a>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-         
-            <div class="cards-project">
-                <div class="content-project">
-                    <div class="content-project">
-                        <div class="image-project">
-                            
-                            <a href="/">
-                                <img src="./svg/C_Programming_Language.svg" alt="html-css-image">
-                            </a>
-
-                        </div>
-                        <span>Projetos em C</span>
-
-                        <p>Projetos concluídos em C utilizando meus conhecimentos e videos aulas.</p>
-
-                        <div class="cta-project">
-                            <a href="/">
-                                Código
-                                <i class="fa-brands fa-github"></i>
-                            </a>
-                            <a href="/">
-                                Site
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                            </a>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="cards-project">
-                <div class="content-project">
-                    <div class="content-project">
-                        <div class="image-project">
-                            
-                            <a href="/">
-                                <img src="./svg/java.svg" alt="html-css-image">
-                            </a>
-
-                        </div>
-                        <span>Projetos em Java</span>
-
-                        <p>Projetos concluídos em Java utilizando meus conhecimentos e videos aulas.</p>
-
-                        <div class="cta-project">
-                            <a href="/">
-                                Código
-                                <i class="fa-brands fa-github"></i>
-                            </a>
-                            <a href="/">
-                                Site
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                            </a>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="cards-project">
-                <div class="content-project">
-                    <div class="content-project">
-                        <div class="image-project">
-                            
-                            <a href="https://github.com/PedroWashingtonRamos">
-                                <img src="./svg/php-icon.svg" alt="html-css-image">
-                            </a>
-
-                        </div>
-                        <span>Projetos em PHP</span>
-
-                        <p>Projetos concluídos em PHP utilizando meus conhecimentos e videos aulas.</p>
-
-                        <div class="cta-project">
-                            <a href="https://github.com/PedroWashingtonRamos">
-                                Código
-                                <i class="fa-brands fa-github"></i>
-                            </a>
-                            <a href="https://github.com/PedroWashingtonRamos">
-                                Site
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                            </a>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-            
-                    
-
-        </div>
-         
-    </section>
-
-    <!-- End projects-->
-
-    <section id="contacts">
-        <div class=contact-icon-content>
-            <h2>Contato 📞</h2>
-        </div>
-
-        <div class="contact-icons-wrapper">
-            <div class="contact-icon-content">
-                <div class="contact-icon">
-                    <i class="fa-solid fa-map-location-dot"></i>
-                </div>
-                <div class="contact-info">
-                    <span>Localização</span>
-                    <p>Rio Grande do Sul - Brazil</p>
-                </div>
-            </div>
+    <main class="max-w-5xl mx-auto px-6">
         
-
-            <div class="contact-icon-content">
-                <div class="contact-icon">
-                    <i class="fa-solid fa-envelope-open-text"></i>
-                </div>
-                <div class="contact-info">
-                    <span>E-mail</span>
-                    <a href="mailto:pedrowramos@icloud.com">
-                        PEDROWRAMOS@ICLOUD.COM
-                    </a>
-                </div>
+        <section class="min-h-screen flex flex-col justify-center items-start pt-20">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-xs font-bold mb-8 border-blue-500/20">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Disponível para novos desafios em 2026
+            </div>
+            <h1 class="text-6xl md:text-8xl font-extrabold tracking-tight mb-8 text-white">
+                Oi, eu sou o <span class="text-blue-500 italic">Pedro Ramos</span>. <br/>
+                Desenvolvedor Fullstack & Criador de IAs.
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-400 max-w-2xl font-light leading-relaxed mb-10">
+                Eu ajudo pessoas e negócios a serem mais inteligentes com tecnologia. Meu lema? <b>Inovação radical, visual impecável.</b>
+            </p>
+            
+            <div class="flex flex-wrap gap-3 mb-10">
+                <div class="tech-pill text-blue-400"><i data-lucide="brain-circuit"></i> Inteligência Artificial</div>
+                <div class="tech-pill text-emerald-400"><i data-lucide="code-2"></i> Python / Node</div>
+                <div class="tech-pill text-orange-400"><i data-lucide="component"></i> React / Next.js</div>
+                <div class="tech-pill text-purple-400"><i data-lucide="database"></i> Vector DB / SQL</div>
             </div>
 
-        </div>
-    </section>
-
-    <!--footer-->
-        <section id="footer">
-            <div>
-                <h2>Desenvolvido por:</h2>
-                <h3>Pedro W. Ramos 2023</h3>
+            <div class="flex gap-4">
+                <a href="#trabalho" class="p-4 bg-white text-black rounded-2xl font-bold hover:bg-blue-500 hover:text-white transition">Meus Projetos</a>
+                <div class="flex gap-2">
+                    <a href="https://github.com/PedroWashingtonRamos" target="_blank" class="p-4 glass rounded-2xl hover:bg-white/10 transition text-white"><i data-lucide="github"></i></a>
+                    <a href="https://linkedin.com/in/pedrowramos/" target="_blank" class="p-4 glass rounded-2xl hover:bg-white/10 transition text-white"><i data-lucide="linkedin"></i></a>
+                </div>
             </div>
-
         </section>
 
-    <!--End footer-->
+        <section id="sobre" class="py-20 flex flex-col md:flex-row gap-12 items-center">
+            <div class="foto-container flex-shrink-0">
+                <div class="foto-glow"></div>
+                <img src="perfil.jpg" alt="Pedro Ramos" class="foto-img" onerror="this.src='https://avatars.githubusercontent.com/u/99445517?s=400&u=4758cee0578868748aa2cecdde79c623e270e9b3&v=4'">
+            </div>
 
-    <script src="scripts.js"></script>
+            <div class="glass p-8 rounded-[2.5rem] border-white/10 shadow-2xl flex-grow">
+                <h2 class="text-3xl font-bold mb-6 italic text-blue-500">Sobre mim:</h2>
+                <div class="text-slate-400 leading-relaxed mb-8 space-y-4">
+                    <p>Tenho 26 anos e gosto de tirar ideias da mente e transformar em realidade.</p>
+                    <p>Sou estudante de <b>Ciência da Computação</b> e atuo como <b>Microempresário</b> no ramo de tecnologia.</p>
+                </div>
+                <div class="space-y-4 text-slate-200">
+                    <div class="flex gap-4 items-center group">
+                        <div class="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition"><i data-lucide="eye" size="18"></i></div>
+                        <p class="text-sm font-semibold">Transforme suas ideias e desejos em realidade.</p>
+                    </div>
+                    <div class="flex gap-4 items-center group">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white transition"><i data-lucide="zap" size="18"></i></div>
+                        <p class="text-sm font-semibold">Código limpo, IA otimizada e escalável.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="trabalho" class="py-20">
+            <h2 class="text-4xl font-bold mb-12 italic ml-4 text-white">O que ando construindo<span class="text-blue-500">...</span></h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                
+                <div onclick="openModal('m1')" class="card-pessoal glass p-8 cursor-pointer group">
+                    <div class="h-48 bg-blue-900/10 rounded-2xl mb-6 overflow-hidden flex items-center justify-center border border-white/5 group-hover:border-blue-500/30 transition">
+                         <i data-lucide="sparkles" class="text-blue-500 w-12 h-12 opacity-30 group-hover:opacity-100 group-hover:scale-110 transition duration-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2 text-white">Assistente Financeiro.</h3>
+                    <p class="text-slate-500 text-sm mb-6 font-light">Um sistema de organização financeira simples e poderoso para gestão inteligente.</p>
+                    <div class="flex gap-2 text-white">
+                        <span class="text-[10px] font-bold bg-blue-500/10 text-blue-400 px-3 py-1 rounded-md uppercase border border-blue-500/10">Python</span>
+                        <span class="text-[10px] font-bold bg-white/5 px-3 py-1 rounded-md uppercase border border-white/10">React</span>
+                    </div>
+                </div>
+
+                <div onclick="openModal('m2')" class="card-pessoal glass p-8 cursor-pointer group">
+                    <div class="h-48 bg-emerald-900/10 rounded-2xl mb-6 overflow-hidden flex items-center justify-center border border-white/5 group-hover:border-emerald-500/30 transition">
+                         <i data-lucide="layers" class="text-emerald-500 w-12 h-12 opacity-30 group-hover:opacity-100 group-hover:scale-110 transition duration-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2 text-white">Sistema de FreeLancer.</h3>
+                    <p class="text-slate-500 text-sm mb-6 font-light">Contrate profissionais capacitados sem burocracia e com segurança total.</p>
+                    <div class="flex gap-2 text-white">
+                        <span class="text-[10px] font-bold bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-md uppercase border border-emerald-500/10">Node.js</span>
+                        <span class="text-[10px] font-bold bg-white/5 px-3 py-1 rounded-md uppercase border border-white/10">Tailwind</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer id="contato" class="py-32 text-center">
+            <p class="text-blue-500 font-bold mb-4">Gostou do meu trabalho?</p>
+            <h2 class="text-5xl md:text-7xl font-bold mb-12 italic text-white text-white">Vamos bater um papo.</h2>
+            <a href="mailto:pwrdev@outlook.com" class="text-3xl md:text-5xl font-light hover:text-blue-500 transition border-b border-white/10 pb-2 break-all text-slate-300">
+                pwrdev@outlook.com
+            </a>
+            <div class="mt-20 flex justify-center gap-8 text-slate-500 mb-16">
+                <a href="https://github.com/PedroWashingtonRamos" target="_blank" class="hover:text-white transition">GitHub</a>
+                <a href="https://linkedin.com/in/pedrowramos/" target="_blank" class="hover:text-white transition">LinkedIn</a>
+                <a href="#" class="hover:text-white transition">Instagram</a>
+            </div>
+
+            <div class="flex flex-col items-center gap-4 pt-12 border-t border-white/5">
+                <div class="logo-wl">
+                    <div class="logo-box"><i data-lucide="cpu" size="20"></i></div>
+                    <span class="text-2xl text-white">WL<span class="text-blue-500 font-light italic text-xl ml-1">System</span></span>
+                </div>
+                <p class="text-[10px] uppercase tracking-[0.3em] text-slate-700 font-bold">Liderado por Pedro Ramos // 2026</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <div id="m1" class="modal items-center justify-center p-6 text-white">
+        <div class="glass max-w-2xl w-full p-10 rounded-[3rem] relative max-h-[90vh] overflow-y-auto border-white/10">
+            <button onclick="closeModal('m1')" class="absolute top-8 right-8 text-slate-500 hover:text-white transition"><i data-lucide="x"></i></button>
+            <h3 class="text-4xl font-bold mb-6 italic text-blue-500">Assistente Financeiro</h3>
+            <div class="space-y-6 text-slate-400 font-light leading-relaxed text-lg">
+                <p>Simplificando a vida financeira através de automação inteligente.</p>
+                <p><b>Diferencial:</b> Processamento de linguagem natural para categorizar gastos.</p>
+                <div class="pt-6">
+                    <a href="https://github.com/PedroWashingtonRamos" target="_blank" class="bg-blue-600 px-8 py-4 rounded-2xl text-white font-bold inline-flex items-center gap-3 hover:bg-blue-500 transition">Ver Projeto <i data-lucide="github" size="20"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="m2" class="modal items-center justify-center p-6 text-white">
+        <div class="glass max-w-2xl w-full p-10 rounded-[3rem] relative max-h-[90vh] overflow-y-auto border-white/10">
+            <button onclick="closeModal('m2')" class="absolute top-8 right-8 text-slate-500 hover:text-white transition"><i data-lucide="x"></i></button>
+            <h3 class="text-4xl font-bold mb-6 italic text-emerald-500">Sistema de FreeLancer</h3>
+            <div class="space-y-6 text-slate-400 font-light leading-relaxed text-lg">
+                <p>Plataforma para conectar microempresas a profissionais de elite.</p>
+                <p><b>Foco:</b> Escalabilidade e segurança total com Node.js.</p>
+                <div class="pt-6 text-center">
+                    <a href="https://github.com/PedroWashingtonRamos" target="_blank" class="bg-emerald-600 px-8 py-4 rounded-2xl text-white font-bold inline-flex items-center gap-3 hover:bg-emerald-500 transition">Ver Repositório <i data-lucide="github" size="20"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; }
+        
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
 </body>
 </html>
