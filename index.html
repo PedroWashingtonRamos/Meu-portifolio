@@ -8,26 +8,33 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Outfit', sans-serif; background-color: #050505; color: #e2e8f0; scroll-behavior: smooth; }
+        body { font-family: 'Outfit', sans-serif; background-color: #030303; color: #e2e8f0; scroll-behavior: smooth; overflow-x: hidden; }
         .font-mono { font-family: 'Fira Code', monospace; }
         
-        .aurora {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: 
-                radial-gradient(circle at 15% 25%, rgba(59, 130, 246, 0.12) 0%, transparent 45%),
-                radial-gradient(circle at 85% 75%, rgba(45, 212, 191, 0.08) 0%, transparent 45%);
+        /* Background Neural - Camada Base */
+        #bg-canvas { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: -1; opacity: 0.6; pointer-events: none;
         }
 
+        .aurora {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background: radial-gradient(circle at 15% 25%, rgba(59, 130, 246, 0.08) 0%, transparent 45%);
+        }
+
+        /* Estética Glassmorphism */
         .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .card-pessoal { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-radius: 2rem; }
+        
+        /* Cards e Interações */
+        .card-pessoal { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-radius: 2rem; position: relative; }
         .card-pessoal:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.04); border-color: rgba(59, 130, 246, 0.4); }
 
+        /* Modais */
         .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(20px); }
         .modal.active { display: flex; animation: slideUp 0.4s ease-out; }
         @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* Estilo do Logo WL System */
-        .logo-wl { display: flex; align-items: center; gap: 8px; font-weight: 800; letter-spacing: -1px; }
+        /* Logo e Moldura da Foto */
         .logo-box {
             background: linear-gradient(135deg, #3b82f6, #2dd4bf);
             width: 32px; height: 32px; border-radius: 8px;
@@ -35,7 +42,6 @@
             color: white; transform: rotate(-10deg);
         }
 
-        /* Moldura da Foto */
         .foto-container { position: relative; width: 280px; height: 280px; }
         .foto-glow {
             position: absolute; inset: 0; background: #3b82f6; border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
@@ -52,24 +58,25 @@
         }
 
         .tech-pill {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 0.5rem 1rem; border-radius: 12px;
-            display: flex; align-items: center; gap: 8px;
-            font-size: 0.875rem; font-weight: 500;
-            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.5rem 1rem; border-radius: 12px; display: flex; align-items: center; gap: 8px;
+            font-size: 0.875rem; font-weight: 500; transition: all 0.3s ease;
         }
         .tech-pill:hover { background: rgba(59, 130, 246, 0.1); border-color: #3b82f6; }
+
+        input, textarea { background: rgba(255,255,255,0.03) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; }
+        input:focus, textarea:focus { border-color: #3b82f6 !important; outline: none; }
     </style>
 </head>
 <body>
 
+    <canvas id="bg-canvas"></canvas>
     <div class="aurora"></div>
 
     <nav class="fixed top-0 w-full z-50 p-6">
         <div class="max-w-5xl mx-auto flex justify-between items-center glass p-4 rounded-3xl">
             <span class="font-bold tracking-tighter text-xl ml-2 text-white">pwrdev<span class="text-blue-500">.</span></span>
-            <div class="flex gap-6 text-sm font-medium mr-2 text-slate-300">
+            <div class="hidden md:flex gap-6 text-sm font-medium mr-2 text-slate-300">
                 <a href="#sobre" class="hover:text-blue-500 transition">Sobre mim.</a>
                 <a href="#trabalho" class="hover:text-blue-500 transition">Projetos.</a>
                 <a href="#contato" class="bg-blue-600 px-4 py-2 rounded-xl text-white hover:bg-blue-500 transition shadow-lg shadow-blue-600/20">Fale comigo!</a>
@@ -77,11 +84,11 @@
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-6">
+    <main class="max-w-5xl mx-auto px-6 relative z-10">
         
         <section class="min-h-screen flex flex-col justify-center items-start pt-20">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-xs font-bold mb-8 border-blue-500/20">
-                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Disponível para novos desafios em 2026
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Projetando sistemas para 2026
             </div>
             <h1 class="text-6xl md:text-8xl font-extrabold tracking-tight mb-8 text-white">
                 Oi, eu sou o <span class="text-blue-500 italic">Pedro Ramos</span>. <br/>
@@ -142,9 +149,9 @@
                     </div>
                     <h3 class="text-2xl font-bold mb-2 text-white">Assistente Financeiro.</h3>
                     <p class="text-slate-500 text-sm mb-6 font-light">Um sistema de organização financeira simples e poderoso para gestão inteligente.</p>
-                    <div class="flex gap-2 text-white">
-                        <span class="text-[10px] font-bold bg-blue-500/10 text-blue-400 px-3 py-1 rounded-md uppercase border border-blue-500/10">Python</span>
-                        <span class="text-[10px] font-bold bg-white/5 px-3 py-1 rounded-md uppercase border border-white/10">React</span>
+                    <div class="flex gap-2">
+                        <span class="text-[10px] font-bold bg-blue-500/10 text-blue-400 px-3 py-1 rounded-md uppercase">Python</span>
+                        <span class="text-[10px] font-bold bg-white/5 px-3 py-1 rounded-md uppercase">React</span>
                     </div>
                 </div>
 
@@ -154,77 +161,130 @@
                     </div>
                     <h3 class="text-2xl font-bold mb-2 text-white">Sistema de FreeLancer.</h3>
                     <p class="text-slate-500 text-sm mb-6 font-light">Contrate profissionais capacitados sem burocracia e com segurança total.</p>
-                    <div class="flex gap-2 text-white">
-                        <span class="text-[10px] font-bold bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-md uppercase border border-emerald-500/10">Node.js</span>
-                        <span class="text-[10px] font-bold bg-white/5 px-3 py-1 rounded-md uppercase border border-white/10">Tailwind</span>
+                    <div class="flex gap-2">
+                        <span class="text-[10px] font-bold bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-md uppercase">Node.js</span>
+                        <span class="text-[10px] font-bold bg-white/5 px-3 py-1 rounded-md uppercase">Tailwind</span>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <footer id="contato" class="py-32 text-center">
-            <p class="text-blue-500 font-bold mb-4">Gostou do meu trabalho?</p>
-            <h2 class="text-5xl md:text-7xl font-bold mb-12 italic text-white text-white">Vamos bater um papo.</h2>
-            <a href="mailto:pwrdev@outlook.com" class="text-3xl md:text-5xl font-light hover:text-blue-500 transition border-b border-white/10 pb-2 break-all text-slate-300">
-                pwrdev@outlook.com
-            </a>
-            <div class="mt-20 flex justify-center gap-8 text-slate-500 mb-16">
-                <a href="https://github.com/PedroWashingtonRamos" target="_blank" class="hover:text-white transition">GitHub</a>
-                <a href="https://linkedin.com/in/pedrowramos/" target="_blank" class="hover:text-white transition">LinkedIn</a>
-                <a href="#" class="hover:text-white transition">Instagram</a>
+        <section id="contato" class="py-20">
+            <div class="max-w-2xl mx-auto glass p-10 rounded-[3rem] border-white/10">
+                <h2 class="text-4xl font-bold mb-2 italic text-center text-white">Me mande uma mensagem.</h2>
+                <form action="https://formspree.io/f/seu-codigo-aqui" method="POST" class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <input type="text" name="nome" placeholder="Seu nome" required class="p-4 rounded-2xl w-full">
+                        <input type="email" name="email" placeholder="Seu e-mail" required class="p-4 rounded-2xl w-full">
+                    </div>
+                    <textarea name="mensagem" placeholder="Sua ideia ou mensagem..." rows="4" required class="p-4 rounded-2xl w-full"></textarea>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition shadow-xl shadow-blue-600/20 flex items-center justify-center gap-2">
+                        Enviar para Pedro <i data-lucide="send" size="18"></i>
+                    </button>
+                </form>
             </div>
+        </section>
 
-            <div class="flex flex-col items-center gap-4 pt-12 border-t border-white/5">
-                <div class="logo-wl">
+        <footer class="py-20 text-center">
+            <div class="flex flex-col items-center gap-6">
+                <div class="flex gap-8 text-slate-500 mb-4">
+                    <a href="https://github.com/PedroWashingtonRamos" target="_blank" class="hover:text-white transition"><i data-lucide="github"></i></a>
+                    <a href="https://linkedin.com/in/pedrowramos/" target="_blank" class="hover:text-white transition"><i data-lucide="linkedin"></i></a>
+                    <a href="mailto:pwrdev@outlook.com" class="hover:text-white transition"><i data-lucide="mail"></i></a>
+                </div>
+
+                <div class="flex items-center gap-3">
                     <div class="logo-box"><i data-lucide="cpu" size="20"></i></div>
-                    <span class="text-2xl text-white">WL<span class="text-blue-500 font-light italic text-xl ml-1">System</span></span>
+                    <span class="text-2xl text-white font-bold">WL<span class="text-blue-500 font-light italic text-xl ml-1">System</span></span>
                 </div>
                 <p class="text-[10px] uppercase tracking-[0.3em] text-slate-700 font-bold">Liderado por Pedro Ramos // 2026</p>
             </div>
         </footer>
-
     </main>
 
     <div id="m1" class="modal items-center justify-center p-6 text-white">
-        <div class="glass max-w-2xl w-full p-10 rounded-[3rem] relative max-h-[90vh] overflow-y-auto border-white/10">
+        <div class="glass max-w-2xl w-full p-10 rounded-[3rem] relative">
             <button onclick="closeModal('m1')" class="absolute top-8 right-8 text-slate-500 hover:text-white transition"><i data-lucide="x"></i></button>
             <h3 class="text-4xl font-bold mb-6 italic text-blue-500">Assistente Financeiro</h3>
-            <div class="space-y-6 text-slate-400 font-light leading-relaxed text-lg">
-                <p>Simplificando a vida financeira através de automação inteligente.</p>
-                <p><b>Diferencial:</b> Processamento de linguagem natural para categorizar gastos.</p>
-                <div class="pt-6">
-                    <a href="https://github.com/PedroWashingtonRamos" target="_blank" class="bg-blue-600 px-8 py-4 rounded-2xl text-white font-bold inline-flex items-center gap-3 hover:bg-blue-500 transition">Ver Projeto <i data-lucide="github" size="20"></i></a>
-                </div>
-            </div>
+            <p class="text-slate-400 text-lg">Detalhes técnicos do assistente financeiro...</p>
         </div>
     </div>
 
     <div id="m2" class="modal items-center justify-center p-6 text-white">
-        <div class="glass max-w-2xl w-full p-10 rounded-[3rem] relative max-h-[90vh] overflow-y-auto border-white/10">
+        <div class="glass max-w-2xl w-full p-10 rounded-[3rem] relative">
             <button onclick="closeModal('m2')" class="absolute top-8 right-8 text-slate-500 hover:text-white transition"><i data-lucide="x"></i></button>
-            <h3 class="text-4xl font-bold mb-6 italic text-emerald-500">Sistema de FreeLancer</h3>
-            <div class="space-y-6 text-slate-400 font-light leading-relaxed text-lg">
-                <p>Plataforma para conectar microempresas a profissionais de elite.</p>
-                <p><b>Foco:</b> Escalabilidade e segurança total com Node.js.</p>
-                <div class="pt-6 text-center">
-                    <a href="https://github.com/PedroWashingtonRamos" target="_blank" class="bg-emerald-600 px-8 py-4 rounded-2xl text-white font-bold inline-flex items-center gap-3 hover:bg-emerald-500 transition">Ver Repositório <i data-lucide="github" size="20"></i></a>
-                </div>
-            </div>
+            <h3 class="text-4xl font-bold mb-6 italic text-emerald-500">Sistema Freelancer</h3>
+            <p class="text-slate-400 text-lg">Detalhes técnicos do sistema de freelancer...</p>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
-        function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; }
-        
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.classList.remove('active');
-                document.body.style.overflow = 'auto';
+
+        // --- SISTEMA DE REDE NEURAL (BACKGROUND) ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
             }
         }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.floor((canvas.width * canvas.height) / 10000);
+            for (let i = 0; i < count; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(59, 130, 246, 0.5)";
+            
+            for (let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.update();
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dist = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(59, 130, 246, ${0.15 * (1 - dist/150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        animate();
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; }
     </script>
 </body>
 </html>
